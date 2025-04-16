@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋爱关系活力值测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fdf2f8;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .question {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        .question:hover {
+            transform: scale(1.02);
+        }
+
+        input[type="radio"]:checked+label {
+            background-color: #fce7f3;
+            border-color: #ec4899;
+        }
+
+        .result-box {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .score-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ec4899;
+            margin-bottom: 0.5rem;
+        }
+
+        .evaluation-text {
+            font-size: 1.25rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .suggestion-text {
+            font-size: 1rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body class="p-8">
+    <h1 class="text-3xl font-bold text-center text-pink-600 mb-8">10道题测试你们的关系活力值</h1>
+    <form id="loveTestForm">
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否经常一起尝试新的餐厅？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q1a1" name="q1" value="5">
+                <label for="q1a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q1a2" name="q1" value="3">
+                <label for="q1a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q1a3" name="q1" value="1">
+                <label for="q1a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会为对方准备惊喜礼物？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q2a1" name="q2" value="5">
+                <label for="q2a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q2a2" name="q2" value="3">
+                <label for="q2a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q2a3" name="q2" value="1">
+                <label for="q2a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会一起参加社交活动？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q3a1" name="q3" value="5">
+                <label for="q3a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q3a2" name="q3" value="3">
+                <label for="q3a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q3a3" name="q3" value="1">
+                <label for="q3a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会分享彼此的梦想和目标？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q4a1" name="q4" value="5">
+                <label for="q4a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q4a2" name="q4" value="3">
+                <label for="q4a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q4a3" name="q4" value="1">
+                <label for="q4a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会因为小事而争吵？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q5a1" name="q5" value="1">
+                <label for="q5a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q5a2" name="q5" value="3">
+                <label for="q5a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q5a3" name="q5" value="5">
+                <label for="q5a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会一起锻炼身体？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q6a1" name="q6" value="5">
+                <label for="q6a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q6a2" name="q6" value="3">
+                <label for="q6a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q6a3" name="q6" value="1">
+                <label for="q6a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会一起看电影或电视剧？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q7a1" name="q7" value="5">
+                <label for="q7a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q7a2" name="q7" value="3">
+                <label for="q7a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q7a3" name="q7" value="1">
+                <label for="q7a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会互相支持对方的兴趣爱好？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q8a1" name="q8" value="5">
+                <label for="q8a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q8a2" name="q8" value="3">
+                <label for="q8a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q8a3" name="q8" value="1">
+                <label for="q8a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会一起规划未来？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q9a1" name="q9" value="5">
+                <label for="q9a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q9a2" name="q9" value="3">
+                <label for="q9a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q9a3" name="q9" value="1">
+                <label for="q9a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <div class="question">
+            <p class="text-lg font-medium mb-4">你们是否会在特殊日子庆祝？</p>
+            <div class="flex space-x-4">
+                <input type="radio" id="q10a1" name="q10" value="5">
+                <label for="q10a1" class="border border-gray-300 p-2 rounded cursor-pointer">经常</label>
+                <input type="radio" id="q10a2" name="q10" value="3">
+                <label for="q10a2" class="border border-gray-300 p-2 rounded cursor-pointer">偶尔</label>
+                <input type="radio" id="q10a3" name="q10" value="1">
+                <label for="q10a3" class="border border-gray-300 p-2 rounded cursor-pointer">很少</label>
+            </div>
+        </div>
+        <button type="button"
+            class="bg-pink-600 text-white px-6 py-3 rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2"
+            onclick="calculateScore()">提交测试</button>
+    </form>
+    <div id="result" class="result-box hidden">
+        <p class="score-text" id="scoreText"></p>
+        <p class="evaluation-text" id="evaluationText"></p>
+        <p class="suggestion-text" id="suggestionText"></p>
+    </div>
+    <script>
+        function calculateScore() {
+            let score = 0;
+            for (let i = 1; i <= 10; i++) {
+                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selectedOption) {
+                    score += parseInt(selectedOption.value);
+                } else {
+                    alert(`请回答第 ${i} 个问题！`);
+                    return;
+                }
+            }
+            const resultDiv = document.getElementById('result');
+            const scoreText = document.getElementById('scoreText');
+            const evaluationText = document.getElementById('evaluationText');
+            const suggestionText = document.getElementById('suggestionText');
+
+            scoreText.textContent = `你们的关系活力值为：${score} 分。`;
+
+            if (score >= 40) {
+                evaluationText.textContent = '你们的恋爱关系充满活力，令人羡慕！继续保持这样的状态，爱情会更加甜蜜。';
+                suggestionText.textContent = '建议可以定期安排一些新的约会活动，如一起学习新的技能、参加户外探险等，为感情不断注入新的活力。';
+            } else if (score >= 25) {
+                evaluationText.textContent = '你们的关系有一定活力，但还有提升空间。只要多花些心思，感情会更上一层楼。';
+                suggestionText.textContent = '可以偶尔为对方准备一些小惊喜，比如一份亲手做的早餐、一张温馨的卡片。多花时间深入交流，了解彼此内心的想法。';
+            } else {
+                evaluationText.textContent = '你们的关系活力值较低，需要用心经营，重新点燃爱情的火花。';
+                suggestionText.textContent = '从日常小事做起，增加相处的时间，一起做饭、散步。学会倾听对方的需求，遇到问题及时沟通解决。';
+            }
+            resultDiv.classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
+    
