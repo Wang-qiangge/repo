@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>容忍阈值测试</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 自定义一些全局样式 */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f4f7ff, #e5f6ff);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            width: 100%;
+            max-width: 600px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .question {
+            border-bottom: 1px solid #e0e7ff;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .question:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .question p {
+            font-size: 18px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background-color: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #2563eb;
+        }
+
+        .option label {
+            font-size: 16px;
+            color: #64748b;
+        }
+
+        button {
+            background-color: #2563eb;
+            color: #fff;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+            margin-top: 24px;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        #result {
+            margin-top: 24px;
+            padding: 16px;
+            background-color: #ecfdf5;
+            border-left: 4px solid #10b981;
+            border-radius: 4px;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        #result p {
+            font-size: 16px;
+            color: #047857;
+            margin-bottom: 8px;
+        }
+
+        #result p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>容忍阈值测试</h1>
+        <form id="testForm">
+            <!-- 问题和选项将通过 JavaScript 动态添加 -->
+        </form>
+        <button id="submitButton" onclick="submitTest()">提交测试</button>
+        <div id="result" class="hidden">
+            <!-- 测试结果将显示在这里 -->
+        </div>
+    </div>
+    <script>
+        // 定义问题和选项
+        const questions = [
+            {
+                question: "在餐厅用餐时，服务员上菜速度很慢，你会：",
+                options: [
+                    "立刻愤怒地向服务员抱怨",
+                    "耐心等待一段时间后再提醒服务员",
+                    "无所谓，慢慢等就好"
+                ]
+            },
+            {
+                question: "在超市排队结账时，前面的人结账速度很慢，你会：",
+                options: [
+                    "不停地叹气，表现出不耐烦",
+                    "礼貌地提醒前面的人加快速度",
+                    "安静地等待，不做任何表示"
+                ]
+            },
+            {
+                question: "在公交车上，有人不小心踩了你一脚，你会：",
+                options: [
+                    "大声指责对方",
+                    "要求对方道歉",
+                    "微笑着表示没关系"
+                ]
+            },
+            {
+                question: "你的同事在工作中频繁犯同样的错误，影响了整个团队的进度，你会：",
+                options: [
+                    "直接在会议上批评他",
+                    "私下和他沟通，提醒他注意",
+                    "选择宽容，相信他会慢慢改正"
+                ]
+            },
+            {
+                question: "在电影院看电影时，旁边的人一直大声说话，你会：",
+                options: [
+                    "愤怒地让他们闭嘴",
+                    "礼貌地提醒他们小声一点",
+                    "尽量忍受，不影响自己看电影就行"
+                ]
+            },
+            {
+                question: "你在网上购买的商品与描述不符，你会：",
+                options: [
+                    "给商家差评并要求全额退款",
+                    "与商家协商解决问题",
+                    "觉得无所谓，将就着用"
+                ]
+            },
+            {
+                question: "你的朋友经常迟到，你会：",
+                options: [
+                    "生气地指责他没有时间观念",
+                    "提醒他以后要准时",
+                    "理解他可能有特殊情况，不介意"
+                ]
+            },
+            {
+                question: "在健身房锻炼时，有人占用了你的器材很长时间，你会：",
+                options: [
+                    "强硬地要求他马上让开",
+                    "礼貌地询问他是否快用完了",
+                    "等他用完再用，不着急"
+                ]
+            },
+            {
+                question: "你的邻居经常在晚上制造噪音，影响你休息，你会：",
+                options: [
+                    "上门理论，要求他们停止",
+                    "先和物业反映情况",
+                    "尽量忍受，希望他们自觉改正"
+                ]
+            },
+            {
+                question: "在图书馆看书时，有人在旁边打电话，声音很大，你会：",
+                options: [
+                    "愤怒地制止他",
+                    "提醒他图书馆需要安静",
+                    "换个位置继续看书"
+                ]
+            }
+        ];
+
+        // 定义每个选项对应的得分
+        const scores = {
+            0: 1,  // 低容忍度选项得分
+            1: 2,  // 中等容忍度选项得分
+            2: 3   // 高容忍度选项得分
+        };
+
+        // 动态生成问题和选项
+        const form = document.getElementById('testForm');
+        questions.forEach((question, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            const questionText = document.createElement('p');
+            questionText.textContent = `问题 ${index + 1}: ${question.question}`;
+            questionDiv.appendChild(questionText);
+            question.options.forEach((option, optionIndex) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('option');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `question${index}`;
+                radio.value = optionIndex;
+                optionDiv.appendChild(radio);
+                const label = document.createElement('label');
+                label.textContent = option;
+                optionDiv.appendChild(label);
+                questionDiv.appendChild(optionDiv);
+            });
+            form.appendChild(questionDiv);
+        });
+
+        // 提交测试
+        function submitTest() {
+            let totalScore = 0;
+            questions.forEach((_, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption) {
+                    const choice = parseInt(selectedOption.value);
+                    totalScore += scores[choice];
+                }
+            });
+            // 计算平均得分
+            const averageScore = totalScore / questions.length;
+            // 根据平均得分给出评价
+            let evaluation;
+            if (averageScore <= 1.5) {
+                evaluation = "你的容忍阈值较低，可能比较容易生气和不耐烦。在生活中可以尝试多一些耐心和理解。";
+            } else if (averageScore <= 2.5) {
+                evaluation = "你的容忍阈值处于中等水平，能够在大多数情况下保持冷静，但偶尔也会有情绪波动。";
+            } else {
+                evaluation = "你的容忍阈值较高，是一个很有耐心和宽容心的人，能够很好地处理生活中的各种不如意。";
+            }
+            // 输出结果
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>你的总得分是: ${totalScore}</p>
+                <p>你的平均得分是: ${averageScore}</p>
+                <p>${evaluation}</p>
+            `;
+            resultDiv.classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>    
